@@ -1,0 +1,91 @@
+/*
+*   以变量为基础配置的变量类名
+*/
+
+@import "./_variable.scss";
+
+@each $colorkey, $colorval in $color {
+  .txt-#{$colorkey} {
+    color: $colorval !important;
+  }
+  .bg-#{$colorkey} {
+    background-color: $colorval !important;
+  }
+  a.txt-#{$colorkey} {
+    color: $colorval !important;
+  }
+}
+
+@each $name, $size in $font-size {
+  .fs-#{$name} {
+    font-size: $size;
+  }
+}
+
+@each $spacename, $spaceval in $space-types {
+  @each $sizename, $sizeval in $space-size {
+    // .mt-0
+    @each $dirname, $dirval in $direction {
+      .#{$spacename}#{$dirname}-#{$sizename} {
+        #{$spaceval}-#{$dirval}: $sizeval;
+      }
+			
+			.b-#{$dirname}{
+				border-#{$dirval}:1px solid $border-color;
+			}
+    }
+    // .m-0
+    .#{$spacename}-#{$sizename} {
+      // 属性名必须是字符串，所以要加上#{}
+      #{$spaceval}: $sizeval;
+    }
+    // .mx-0
+    .#{$spacename}x-#{$sizename} {
+      // 属性名必须是字符串，所以要加上#{}
+      #{$spaceval}-left: $sizeval;
+      #{$spaceval}-right: $sizeval;
+    }
+    // .my-0
+    .#{$spacename}y-#{$sizename} {
+      // 属性名必须是字符串，所以要加上#{}
+      #{$spaceval}-top: $sizeval;
+      #{$spaceval}-bottom: $sizeval;
+    }
+  }
+}
+
+@each $posname, $posval in $pos {
+  .pos-#{$posname} {
+    position: #{$posval};
+  }
+}
+
+@each $jusname, $jusval in $jus {
+  .jus-#{$jusname} {
+    justify-content: #{$jusval};
+  }
+}
+
+@each $aliname, $alival in $align {
+  .ali-#{$aliname} {
+    align-items: #{$alival};
+  }
+}
+
+@each $overname, $overval in $over {
+  .over-#{$overname} {
+    overflow: #{$overval};
+  }
+}
+
+@each $dirname, $dirval in $direction {
+  .bor-#{$dirname} {
+    border-#{$dirval}: $border-width solid $border-color;
+  }
+}
+
+// mixins
+@function color($name) {
+  @return map-get($color, $name);
+}
+

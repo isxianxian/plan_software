@@ -1,0 +1,54 @@
+﻿Source
+<link rel="stylesheet" type="text/css" href="../../codebase/skins/dhtmlxform_dhx_skyblue.css">
+    <link rel="stylesheet" type="text/css" href="../../../dhtmlxEditor/codebase/skins/dhtmlxeditor_dhx_skyblue.css">
+    <script src="../../codebase/dhtmlxcommon.js"></script>
+    <script src="../../../dhtmlxEditor/codebase/dhtmlxeditor.js"></script>
+    
+    <script src="../../codebase/dhtmlxform.js"></script>
+    <script src="../../codebase/ext/dhtmlxform_item_editor.js"></script>
+    	
+引入百度编辑器库文件及 dhtmlxform_item_ueditor.js
+
+<script type="text/javascript" charset="utf-8" src="http://192.168.99.32/web/ueditor1_3_6-utf8-php/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://192.168.99.32/web/ueditor1_3_6-utf8-php/ueditor.all.min.js"> </script>
+    <script src="../../codebase/ext/dhtmlxform_item_ueditor.js"></script>
+    
+    <script>
+var myForm,
+formData;
+function doOnLoad() {
+    dhtmlx.skin = "dhx_skyblue";
+    window.dhx_globalImgPath = "../../../dhtmlxCombo/codebase/imgs/";
+    formData = [{
+        type: "settings",
+        labelWidth: 90
+    }, {
+        type: "ueditor",//类型ueditor
+        name: "aa"
+        ue_config: {//参考UEditor API API
+          toolbars: [['fullscreen', 'source', 'undo', 'redo'],
+    ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']]
+        },
+        label: "Band",
+        inputWidth: 400,
+        inputHeight: 160,
+        value: "Motorhead"
+    }, {
+        type: "editor",
+        label: "Title",
+        inputWidth: 400,
+        inputHeight: 60,
+        value: "Smiling Like A Killer"
+    }, {
+        type: "editor",
+        label: "Lyrics",
+        inputWidth: 400,
+        inputHeight: 220,
+        value: "I'm the one you never see, in the dead of night,<br>Peeking in your window, staying out of sight,<br>GO to bed, lock the door, don't look in the mirror,<br>What if I was right behind you,<br>Smiling Like A Killer,<br><br>I'm the knocking at your door, when you're all alone,<br>I'm the scratching zombie claw, in your twilight zone,<br>Cut your throat, catch your breath, blood run like a river,<br>Last thing you see before your death,<br>Smiling Like A Killer"
+    }];
+    myForm = new dhtmlXForm("myForm", formData);
+    myFrom.getUEditor('aa');//通过item的name属性得到UEditor的引用}
+</script>
+ 
+ 
+    <div id="myForm" style="height:450px;"></div>

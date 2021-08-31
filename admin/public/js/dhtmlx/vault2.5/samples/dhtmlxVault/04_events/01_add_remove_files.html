@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add/remove files</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../codebase/fonts/font_roboto/roboto.css"/>
+	<link rel="stylesheet" type="text/css" href="../../../codebase/dhtmlxvault.css"/>
+	<script src="../../../codebase/dhtmlxvault.js"></script>
+	<script src="../../../codebase/swfobject.js"></script>
+	<style>
+		div.sample_title {
+			font-size: 14px;
+			font-family: Roboto, Arial, Helvetica;
+			color: #404040;
+			font-weight: 500;
+			margin: 15px 1px;
+		}
+		div#maxsize_info {
+			font-size: 14px;
+			font-family: Roboto, Arial, Helvetica;
+			color: #404040;
+			margin: 16px 1px 20px 1px;
+		}
+		div#log_here {
+			font-size: 14px;
+			font-family: Roboto, Arial, Helvetica;
+			color: #404040;
+			overflow: auto;
+			width: auto;
+			height: 200px;
+			border: 1px solid #dfdfdf;
+		}
+		div#vaultObj {
+			position: relative;
+			width: 400px;
+			height: 250px;
+			box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.09);
+		}
+	</style>
+	<script>
+		var myVault;
+		function doOnLoad() {
+			window.dhx4.ajax.get("../server/upload_conf.php", function(r){
+				var t = window.dhx4.s2j(r.xmlDoc.responseText);
+				if (t != null) {
+					myVault = new dhtmlXVaultObject(t);
+					//
+					myVault.attachEvent("onBeforeFileAdd",function(file){
+						writeLog("onBeforeFileAdd, real name: "+file.name+", size: "+file.size);
+						return true; // true - allow add, false - not
+					});
+					myVault.attachEvent("onFileAdd",function(file){
+						writeLog("onFileAdd, name: "+file.name);
+					});
+					myVault.attachEvent("onBeforeFileRemove",function(file){
+						writeLog("onBeforeFileRemove, real name: "+file.name+", server name: "+(file.serverName==null?"wasn't uploaded":file.serverName));
+						return true; // true - allow remove, false - not
+					});
+					myVault.attachEvent("onFileRemove",function(file){
+						writeLog("onFileRemove, real name: "+file.name+", server name: "+(file.serverName==null?"wasn't uploaded":file.serverName));
+					});
+					myVault.attachEvent("onBeforeClear",function(){
+						writeLog("onBeforeClear");
+						return true; // true - allow clear, false - not
+					});
+					myVault.attachEvent("onClear",function(){
+						writeLog("onClear");
+					});
+					//
+					writeLog("Vault inited");
+					// update max file size notice
+					document.getElementById("maxsize_info").innerHTML = "Upload max filesize: "+myVault.readableSize(t.maxFileSize);
+				}
+			});
+		}
+		function writeLog(text) {
+			var p = document.getElementById("log_here");
+			p.innerHTML = "<div>"+text+"</div>"+p.innerHTML;
+		}
+	</script>
+	
+</head>
+<body onload="doOnLoad();">
+	<div class="sample_title">Add/remove files</div>
+	<div id="maxsize_info">&nbsp;</div>
+	<div id="vaultObj"></div>
+	<br>
+	<div id="log_here"></div>
+</body>
+</html>

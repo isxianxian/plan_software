@@ -1,0 +1,66 @@
+$color: (
+  "primary": #1f70fc,
+  "body": "#edf1f2",
+  "white": #ffffff,
+  "black": #000,
+  "info": #999999,
+  "gray": #e4e4e4,
+  "border": #e1e1e1,
+);
+$border-color: map-get($color, "border");
+$border-width: 1px;
+
+$base-font-size: 14px;
+$font-size: (
+  "14": 14px,
+  "16": 16px,
+  "18": 18px,
+);
+
+$space-types: (
+  m: margin,
+  p: padding,
+);
+$space-size: (
+  "5": 5px,
+  "10": 10px,
+  "20": 20px,
+  "30": 30px,
+  "40": 40px,
+  "60": 60px,
+);
+$direction: (
+  t: top,
+  b: bottom,
+  l: left,
+  r: right,
+);
+
+$pos: (
+  rel: relative,
+  fix: fixed,
+  abs: absolute,
+);
+
+// flex justify-content
+$jus: (
+  start: flex-start,
+  end: flex-end,
+  cen: center,
+  bet: space-between,
+  ar: space-around,
+);
+
+// flex align-items
+$align: (
+  str: stretch,
+  start: flex-start,
+  end: flex-end,
+  cen: center,
+);
+
+$over: (
+  hide: hidden,
+  userForm: userForm,
+  scroll: scroll,
+);

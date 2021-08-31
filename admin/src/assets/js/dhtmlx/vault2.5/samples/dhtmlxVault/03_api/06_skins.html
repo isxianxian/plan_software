@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Skins</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../codebase/fonts/font_roboto/roboto.css"/>
+	<link rel="stylesheet" type="text/css" href="../../../skins/skyblue/dhtmlxvault.css"/>
+	<link rel="stylesheet" type="text/css" href="../../../skins/terrace/dhtmlxvault.css"/>
+	<link rel="stylesheet" type="text/css" href="../../../skins/web/dhtmlxvault.css"/>
+	<link rel="stylesheet" type="text/css" href="../../../codebase/dhtmlxvault.css"/>
+	<script src="../../../codebase/dhtmlxvault.js"></script>
+	<script src="../../../codebase/swfobject.js"></script>
+	<style>
+		div.sample_title {
+			font-size: 14px;
+			font-family: Roboto, Arial, Helvetica;
+			color: #404040;
+			font-weight: 500;
+			margin: 15px 1px;
+		}
+		div#maxsize_info {
+			font-size: 14px;
+			font-family: Roboto, Arial, Helvetica;
+			color: #404040;
+			margin: 16px 1px 20px 1px;
+		}
+		div#vaultObj {
+			position: relative;
+			width: 400px;
+			height: 250px;
+			box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.09);
+		}
+	</style>
+	<script>
+		var myVault;
+		function doOnLoad() {
+			window.dhx4.ajax.get("../server/upload_conf.php", function(r){
+				var t = window.dhx4.s2j(r.xmlDoc.responseText);
+				if (t != null) {
+					t.skin = "material";
+					myVault = new dhtmlXVaultObject(t);
+					// update max file size notice
+					document.getElementById("maxsize_info").innerHTML = "Upload max filesize: "+myVault.readableSize(t.maxFileSize);
+				}
+			});
+		}
+		function setSkin(skin) {
+			if (myVault != null) myVault.setSkin(skin);
+		}
+	</script>
+</head>
+<body onload="doOnLoad();">
+	<div class="sample_title">Skins</div>
+	<div id="maxsize_info">&nbsp;</div>
+	<div id="vaultObj"></div>
+	<br>
+	<input type="button" value="skyblue"  onclick="setSkin('dhx_skyblue');">
+	<input type="button" value="web"      onclick="setSkin('dhx_web');">
+	<input type="button" value="terrace"  onclick="setSkin('dhx_terrace');">
+	<input type="button" value="material" onclick="setSkin('material');">
+</body>
+</html>
