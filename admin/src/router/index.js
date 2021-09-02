@@ -6,8 +6,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Login',
-    component: () => import('../views/login/Login.vue')
+    name: 'Home',
+    component: () => import('../views/home/index')
   },
   {
     path: '/login',

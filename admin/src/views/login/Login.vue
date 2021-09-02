@@ -14,7 +14,8 @@
         <el-input v-model="userForm.password"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="login">登陆</el-button>
+        <el-button @click="register">注册</el-button>
+        <el-button @click="login" type="primary">登陆</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -28,7 +29,7 @@ export default {
   data() {
     return {
       userForm: {
-        account: "system",
+        account: "system1",
         password: "123456",
       },
       rules: {
@@ -50,6 +51,23 @@ export default {
           let { token } = res;
           localStorage.setItem("user-token", token);
           this.$router.push("/home");
+        });
+      });
+    },
+    register() {
+      this.$refs.userForm.validate((valid) => {
+        if (!valid) {
+          this.$message.error("请输入完整信息！");
+          return;
+        }
+        let { account, password } = this.userForm;
+        password = md5(password);
+        this.$api.register({ account, password }).then((res) => {
+          if (res.success) {
+            this.$message.success("注册成功！");
+            this.login();
+          } else {
+          }
         });
       });
     },

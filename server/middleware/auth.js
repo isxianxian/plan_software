@@ -6,13 +6,22 @@ module.exports = (options) => {
   let { app } = options;
   return async (req, res, next,) => {
     let token = req.headers.authentication;
-    console.log(token, '权限中间件！')
     if (!token) {
-      res.status(401);
+      res.sendStatus(401);
     }
-    const isOk = jwt.verify(token, app.get('secret'));
-    assert(isOk, 401, '请先登陆')
-    console.log(isOk, '12')
+    jwt.verify(token, app.get('secret'), (err, decoded) => {
+      if (err) {
+        if (err.name == 'JsonWebTokenError') { // 无效的token
+          res.sendStatus(401);
+        } else if (err.name == 'TokenExpiredError') {
+          res.sendStatus(403);
+        }
+      } else {
+        console.log(decoded)
+      }
+    });
+    // assert(isOk, 401, '请先登陆')
+    // console.log(isOk, '12')
 
     await next();
   }

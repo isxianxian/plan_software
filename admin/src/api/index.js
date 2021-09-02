@@ -4,6 +4,9 @@ import { get, post } from './http';
 const login = function (data) {
   return post('/login', data);
 }
+const register = function (data) {
+  return post('/register', data);
+}
 // 获取所有项目
 const allProjects = function () {
   return get('/allProjects')
@@ -11,6 +14,7 @@ const allProjects = function () {
 
 
 export default {
+  register,
   login,
   allProjects
 }

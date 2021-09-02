@@ -1,3 +1,4 @@
+import router from '../router';
 import { Message, Loading } from 'element-ui';
 import axios from 'axios';
 let loadNum = 0, showLoad = null;
@@ -40,12 +41,9 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token        
     // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
     // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断 
-
     const token = localStorage.getItem('user-token');
     token && (config.headers['Authentication'] = token);
-
     showLoading();
-
     return config;
   },
   error => {
@@ -58,10 +56,11 @@ axios.interceptors.response.use(
     hideLoading();
     // 如果返回的状态码以2/3开头，说明接口请求成功，可以正常拿到数据     
     // 否则的话抛出错误
-    if (response.data.success) {
-      return response.data.data || response.data.message;
-    } else {
-      Message.error(response.data)
+    if (!response.data.success) {
+      Message.error(response.data.errmsg || '失败，请稍后再试！')
+      return {};
+    } else if (response.data.success) {
+      return response.data.data || response.data.message || response.data;
     }
   },
   // 服务器状态码不是2/3开头的的情况
@@ -70,7 +69,6 @@ axios.interceptors.response.use(
   // 下面列举几个常见的操作，其他需求可自行扩展
   error => {
     hideLoading();
-    console.log(error, '73')
     if (error.response.status) {
       switch (error.response.status) {
         // 401: 未登录
@@ -96,7 +94,7 @@ axios.interceptors.response.use(
             forbidClick: true
           });
           // 清除token
-          // localStorage.removeItem('token');
+          localStorage.removeItem('user-token');
           // store.commit('loginSuccess', null);
           // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面 
           setTimeout(() => {
